@@ -1,0 +1,13 @@
+.ipynb_checkpoints/
+__pycache__/
+
+*.zip
+*.png
+
+*.mp4
+*.npy
+
+
+# !thun_00_a.mp4
+# !thun_00_a_generated.mp4
+# !thun_00_a_generated_events.npy
