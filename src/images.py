@@ -14,7 +14,7 @@ def process_frame(frame):
         numpy.ndarray: Logarithmically transformed grayscale image.
     """
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.float32)
-    log_image = np.log(gray + 1.0) 
+    log_image = np.log1p(gray)
     return log_image
 
 def build_event_image(events, height, width):

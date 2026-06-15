@@ -48,5 +48,36 @@ cd Frame-to-Event-Conversion-Framework
 ```
 3. Install the required dependencies:
 ```bash
+python3 -m venv .venv 
+source .venv/bin/activate
 pip install -r requirements.txt
+```
+
+## CLI
+
+The framework provides a command-line interface for converting RGB videos into event streams.
+
+### Arguments
+
+| Argument | Description |
+|-----------|-------------|
+| `-i`, `--input` | Input RGB video path |
+| `-o`, `--output-dir` | Output directory where generated files will be stored |
+| `-t`, `--threshold` | Intensity-change threshold used to trigger events |
+| `-m`, `--min-pixels` | Minimum number of motion pixels required to generate an event frame |
+| `-n`, `--name` | Base name for generated output files |
+
+### Example
+
+```bash
+python cli.py -i "thun_00_a.mp4" -o "results" -t 0.2 -m 500 --n experiment
+```
+
+This command generates:
+
+```text
+results/
+├── experiment_generated_video.mp4
+├── experiment_generated_events.npy
+└── experiment_generated_events.h5
 ```
