@@ -4,25 +4,25 @@ import numpy as np
 import os
 
 try:
-    from images import process_frame, build_event_image
+    from utils.images import process_frame, build_event_image
 except ImportError:
     print("[Error] Could not import 'images' module.")
     exit(1)
 
 try:
-    from utils import save_h5
+    from utils.h5_functions import EventH5Writer
 except ImportError:
-    print("[Error] Could not import 'hdf5' module.")
+    print("[Error] Could not import 'h5_functions' module.")
     exit(1)
 
 
 def generate_events_from_video(
     input_video,
     output_video_path,
-    output_npy_path,
     output_h5_path,
     threshold,
     min_pixels,
+    generate_video,
 ):
     cap = cv2.VideoCapture(input_video)
     if not cap.isOpened():
@@ -32,23 +32,27 @@ def generate_events_from_video(
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = cap.get(cv2.CAP_PROP_FPS)
-    # Output video writer    
-    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-    out = cv2.VideoWriter(
-        output_video_path,
-        fourcc,
-        fps,
-        (width, height),
-    )
+    out = None
+    if generate_video:
+        # Output video writer
+        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+        out = cv2.VideoWriter(
+            output_video_path,
+            fourcc,
+            fps,
+            (width, height),
+        )
     # Initialization
     ret, frame = cap.read()
     if not ret:
         cap.release()
-        out.release()
+        if out is not None:
+            out.release()
         raise RuntimeError("Video is empty or first frame cannot be read.")
     last_event_image = process_frame(frame)
-    generated_events = []
+    last_event_image = cv2.GaussianBlur(last_event_image, (3, 3), 0)
     rendered_frames = 0
+    event_writer = EventH5Writer(output_h5_path)
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -57,7 +61,7 @@ def generate_events_from_video(
         # Noise reduction
         current_image_blurred = cv2.GaussianBlur(
             current_image,
-            (7, 7),
+            (3, 3),
             0,
         )
         diff = current_image_blurred.astype(np.float32) - last_event_image.astype(np.float32)
@@ -65,56 +69,42 @@ def generate_events_from_video(
         motion_pixels = np.argwhere(motion_mask)
 
         if len(motion_pixels) <= min_pixels:
+            last_event_image = current_image_blurred
+            rendered_frames += 1
             continue
 
-        timestamp_us = int(cap.get(cv2.CAP_PROP_POS_MSEC) * 1000)
+        timestamp_us = int((rendered_frames / fps) * 1e6)
         rows = motion_pixels[:, 0]
         cols = motion_pixels[:, 1]
-        polarities = np.where(
-            diff[rows, cols] > 0,
-            1,
-            -1,
-        )
+        polarities = np.where(diff[rows, cols] > 0, 1, -1)
         events = np.column_stack((
-                cols,
-                rows,
-                np.full(
-                    len(rows),
-                    timestamp_us,
-                    dtype=np.uint64,
-                ),
-                polarities,
-            ))
-        generated_events.extend(events)
+            cols,
+            rows,
+            np.full(len(rows), timestamp_us, dtype=np.uint64),
+            polarities,
+        ))
+        event_writer.add_events(events)
 
-        last_event_image[rows, cols] = current_image[rows, cols]
+        last_event_image = current_image_blurred
 
-        event_img = build_event_image(
-            events,
-            height,
-            width,
-        )
-        out.write(event_img)
+        if out is not None:
+            event_img = build_event_image(events, height, width)
+            out.write(event_img)
+
         rendered_frames += 1
-
-        # if rendered_frames > 230:
-        #     print("force to stop after 230 frames for testing")
-        #     break
 
     # Save files
     cap.release()
-    out.release()
+    if out is not None:
+        out.release()
+    event_writer.finalize()
 
-    if len(generated_events) == 0:
+    if event_writer.total_events == 0:
         print("[WARNING] No events were generated.")
         return
 
-    generated_events = np.array(generated_events)
-    # np.save(output_npy_path, generated_events)
-    save_h5(generated_events, output_h5_path)
-
     print(f"[INFO] Rendered event frames: {rendered_frames}")
-    print(f"[INFO] Total events generated: {len(generated_events)}")
+    print(f"[INFO] Total events generated: {event_writer.total_events}")
 
 
 def main():
@@ -169,6 +159,21 @@ def main():
         ),
     )
 
+    video_group = parser.add_mutually_exclusive_group()
+    video_group.add_argument(
+        "--video",
+        dest="generate_video",
+        action="store_true",
+        help="Generate the output video (default).",
+    )
+    video_group.add_argument(
+        "--no-video",
+        dest="generate_video",
+        action="store_false",
+        help="Skip output video generation.",
+    )
+    parser.set_defaults(generate_video=True)
+
     args = parser.parse_args()
 
     if not os.path.exists(args.input):
@@ -195,11 +200,6 @@ def main():
         f"{base_name}_generated_video.mp4",
     )
 
-    output_npy_path = os.path.join(
-        args.output_dir,
-        f"{base_name}_generated_events.npy",
-    )
-
     output_h5_path = os.path.join(
         args.output_dir,
         f"{base_name}_generated_events.h5",
@@ -208,10 +208,10 @@ def main():
     generate_events_from_video(
         input_video=args.input,
         output_video_path=output_video_path,
-        output_npy_path=output_npy_path,
         output_h5_path=output_h5_path,
         threshold=args.threshold,
         min_pixels=args.min_pixels,
+        generate_video=args.generate_video,
     )
 
 if __name__ == "__main__":
