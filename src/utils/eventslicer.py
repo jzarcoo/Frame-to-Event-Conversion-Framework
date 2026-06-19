@@ -73,7 +73,8 @@ class EventSlicer:
         t_start_us_idx = t_start_ms_idx + idx_start_offset
         t_end_us_idx = t_start_ms_idx + idx_end_offset
         # Again add t_offset to get gps time
-        events['t'] = time_array_conservative[idx_start_offset:idx_end_offset] + self.t_offset
+        # Fix: Cast time_array_conservative to int64 to avoid OverflowError
+        events['t'] = time_array_conservative.astype(np.int64)[idx_start_offset:idx_end_offset] + self.t_offset
         for dset_str in ['p', 'x', 'y']:
             events[dset_str] = np.asarray(self.events[dset_str][t_start_us_idx:t_end_us_idx])
             assert events[dset_str].size == events['t'].size
