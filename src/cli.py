@@ -4,6 +4,7 @@ from core.event_generator import EventGenerator
 from utils.parser import build_parser
 
 # python cli.py -i '../data/thun_00_a/thun_00_a_images_rectified_left/thun_00_a.mp4' -o '../results' -t 0.1 -m 0 --timestamps '../data/thun_00_a/thun_00_a_images_rectified_left/image_timestamps.txt' --resize 640 480 --video
+# python cli.py -i '../data/thun_00_a/thun_00_a_images_rectified_left/thun_00_a.mp4' -o '../results' -t 0.05 -m 0 --resize 640 480 --video
 def main():
     """Entry point for the command-line interface to generate events from RGB videos."""
     args = build_parser().parse_args()

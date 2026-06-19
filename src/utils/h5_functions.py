@@ -25,7 +25,7 @@ class EventH5Writer:
             "t",
             shape=(0,),
             maxshape=(None,),
-            dtype=np.uint64,
+            dtype=np.uint32,
             chunks=True,
         )
         self.p_dataset = self.events_group.create_dataset(
@@ -52,7 +52,7 @@ class EventH5Writer:
 
         x = events_array[:, 0].astype(np.uint16)
         y = events_array[:, 1].astype(np.uint16)
-        t = events_array[:, 2].astype(np.uint64)
+        t = events_array[:, 2].astype(np.uint32)
         p = (events_array[:, 3] > 0).astype(np.uint8)
 
         x_end = self.total_events + len(events_array)
@@ -87,7 +87,7 @@ class EventH5Writer:
 
         self.file.create_dataset(
             "ms_to_idx",
-            data=np.array(self.ms_to_idx, dtype=np.uint64),
+            data=np.array(self.ms_to_idx, dtype=np.uint32),
         )
         self.file.create_dataset("t_offset", data=0)
         self.file.flush()

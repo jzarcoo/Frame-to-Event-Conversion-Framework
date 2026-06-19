@@ -79,7 +79,7 @@ class EventGenerator:
             np.full(
                 len(rows),
                 timestamp_us,
-                dtype=np.uint64,
+                dtype=np.uint32,
             ),
             polarities,  
         ))
@@ -126,7 +126,7 @@ class EventGenerator:
         if timestamps_path:
             if not os.path.isfile(timestamps_path):
                 raise FileNotFoundError(timestamps_path)
-            timestamps = np.loadtxt(timestamps_path, dtype=np.uint64)
+            timestamps = np.loadtxt(timestamps_path, dtype=np.uint32)
         out = None
         if output_video_path:
             fourcc = cv2.VideoWriter_fourcc(*"mp4v")
