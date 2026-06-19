@@ -67,17 +67,19 @@ The framework provides a command-line interface for converting RGB videos into e
 | `-m`, `--min-pixels` | Minimum number of motion pixels required to generate an event frame |
 | `-n`, `--name` | Base name for generated output files |
 | `--video` / `--no-video` | Enable or disable output video generation. |
+| `--timestamps`           | Optional timestamp file containing frame timestamps in microseconds                  |
+| `--resize WIDTH HEIGHT`  | Resize output frames to the specified width and height before processing             |
 
 ### Example
 
 ```bash
-!python cli.py -i "thun_00_a.mp4" -o "results" -t 0.2 -m 0 --name experiment --video
+!python cli.py -i '../data/thun_00_a/thun_00_a_images_rectified_left/thun_00_a.mp4' -o '../results' -t 0.1 -m 0 --timestamps '../data/thun_00_a/thun_00_a_images_rectified_left/image_timestamps.txt' --resize 640 480 --video
 ```
 
 This command generates:
 
 ```text
 results/
-├── experiment_generated_video.mp4
-└── experiment_generated_events.h5
+├── thun_00_a_events.h5
+└── thun_00_a_video.mp4
 ```
