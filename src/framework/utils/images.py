@@ -79,7 +79,6 @@ def dsec_events_to_video(h5_path, output_video_path, width=640, height=480, fps=
             current_time_us = next_time_us
             # Progress display
             progress = (frame_idx + 1) / total_frames * 100
-            #sys.stdout.write(f"\rProcesando: {progress:.1f}% [{frame_idx + 1}/{total_frames}]")
             sys.stdout.write(f"\rGenerating video: {progress:.1f}% [{frame_idx + 1}/{total_frames}]")
             sys.stdout.flush()
         video_writer.release()
