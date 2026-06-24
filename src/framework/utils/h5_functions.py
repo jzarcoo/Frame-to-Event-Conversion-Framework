@@ -4,6 +4,11 @@ import numpy as np
 class EventH5Writer:
     """Utility class to write events to an HDF5 file in a format compatible with DSEC."""
     def __init__(self, output_path):
+        """
+        Initialize the EventH5Writer with the specified output path.
+        Args:
+            output_path (str): Path to the output HDF5 file.
+        """
         self.output_path = output_path
         self.file = h5py.File(output_path, "w")
         self.events_group = self.file.create_group("events")
@@ -42,7 +47,11 @@ class EventH5Writer:
         self.ms_to_idx = []
 
     def add_events(self, events_array):
-        """Add a batch of events to the HDF5 file. Events should be a numpy array of shape (N, 4) with columns [x, y, t, p]."""
+        """
+        Add a batch of events to the HDF5 file. Events should be a numpy array of shape (N, 4) with columns [x, y, t, p].
+        Args:
+            events_array (np.ndarray): Array of events with shape (N, 4) where each event is represented as [x, y, t, p].
+        """
         if len(events_array) == 0:
             return
 
@@ -95,13 +104,23 @@ class EventH5Writer:
 
 
 def save_h5(events_array, output_path):
-    """Save events in HDF5 format compatible with DSEC."""
+    """
+    Save events in HDF5 format compatible with DSEC.
+    Args:
+        events_array (np.ndarray): Array of events with shape (N, 4) where each event is represented as [x, y, t, p].
+        output_path (str): Path to the output HDF5 file.
+    """
     writer = EventH5Writer(output_path)
     writer.add_events(events_array)
     writer.finalize()
 
 def set_offset(h5_file, offset):
-    """Set t_offset in an existing HDF5 file."""
+    """
+    Set t_offset in an existing HDF5 file.
+    Args:
+        h5_file (str): Path to the HDF5 file.
+        offset (int): Offset value to set for t_offset.
+    """
     with h5py.File(h5_file, "a") as f:
         if "t_offset" in f:
             f["t_offset"][()] = offset

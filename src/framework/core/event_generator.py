@@ -1,10 +1,10 @@
-import os
-
 import cv2
 import numpy as np
+import os
+import sys
 
-from utils.h5_functions import EventH5Writer
-from utils.images import (
+from framework.utils.h5_functions import EventH5Writer
+from framework.utils.images import (
     process_frame,
     build_event_image,
 )
@@ -136,25 +136,27 @@ class EventGenerator:
                 fps,
                 (width, height),
             )
+        # Grayscale conversion
         previous = process_frame(frame)
-        previous = cv2.GaussianBlur(
-            previous,
-            (kernel_size, kernel_size),
-            0,
-        )
+        # previous = cv2.GaussianBlur(
+        #     previous,
+        #     (kernel_size, kernel_size),
+        #     0,
+        # )
         frame_idx = 0
         writer = EventH5Writer(output_h5_path)
+        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         while True:
             ret, frame = cap.read()
             if not ret:
                 break
             frame = self._resize(frame)
             current = process_frame(frame)
-            current = cv2.GaussianBlur(
-                current,
-                (kernel_size, kernel_size),
-                0,
-            )
+            # current = cv2.GaussianBlur(
+            #     current,
+            #     (kernel_size, kernel_size),
+            #     0,
+            # )
             timestamp_us = self._timestamp_us(frame_idx, fps, timestamps)
             events = self._compute_events(previous, current, timestamp_us)
             if events is None:
@@ -167,6 +169,15 @@ class EventGenerator:
                 out.write(event_frame)
             previous = current
             frame_idx += 1
+            # Progress display
+            progress = (frame_idx + 1) / total_frames * 100
+            print(
+                f"\rGenerating events: {progress:.1f}% "
+                f"[{frame_idx + 1}/{total_frames}]",
+                end="",
+                flush=True
+            )
+        print()
         cap.release()
         if out is not None:
             out.release()

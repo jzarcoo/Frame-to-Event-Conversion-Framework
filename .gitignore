@@ -1,7 +1,8 @@
 .ipynb_checkpoints/
 __pycache__/
 
-data/ 
+data/thun_00_a/**
+!data/thun_00_a/window_queries.txt
 
 *.zip
 *.png
@@ -9,3 +10,9 @@ data/
 *.mp4
 *.npy
 *.h5
+
+z_*.*
+
+uv.lock
+
+requirements.txt

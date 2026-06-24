@@ -1,3 +1,5 @@
+# https://github.com/uzh-rpg/DSEC/blob/main/scripts/utils/eventslicer.py
+
 import math
 from typing import Dict, Tuple
 
