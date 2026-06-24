@@ -2,9 +2,9 @@
 
 Develop a lightweight, classical (non-learning-based) framework that converts RGB video into an event stream $(x, y, t, p)$.
 
-* [RGB Video](https://drive.google.com/file/d/1CXvhnL344o39Mc4nZ3f3yCFMVMWr8isn/view?usp=sharing)
+* [RGB Video]()
 
-* [Generated Event Video](https://drive.google.com/file/d/1NCVpCwWnJV8UV07Yq6YLSnKa81IML8jr/view?usp=sharing)
+* [Generated Event Video]()
 
 ## Dataset
 
