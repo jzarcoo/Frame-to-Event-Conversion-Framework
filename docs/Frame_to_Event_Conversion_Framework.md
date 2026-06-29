@@ -142,11 +142,11 @@ Skipped           : 3
 --------------------------------------------------
 METRIC   | BEST VALUE   | WORST VALUE 
 --------------------------------------------------
-MSE      | 810.2615     | 1437.8585   
-MAE      | 13.4887      | 22.7362     
-SSIM     | 0.4646       | 0.2295      
-PSNR     | 19.0446      | 16.5536     
-LPIPS    | 0.4963       | 0.5885      
+MSE      | 730.1671     | 1136.0068   
+MAE      | 11.9592      | 19.0041     
+SSIM     | 0.5180       | 0.3605      
+PSNR     | 19.4966      | 17.5770     
+LPIPS    | 0.5138       | 0.6057          
 
 ```
 
@@ -154,15 +154,15 @@ LPIPS    | 0.4963       | 0.5885
 
 ### 3.3 Event Sparsity Analysis
 
-A critical finding from our evaluation is the overall event yield. The generated synthetic event stream contains only $14.12 \%$ of the events present in the DSEC ground truth.
+A critical finding from our evaluation is the overall event yield. The generated synthetic event stream contains only $8.83 \%$ of the events present in the DSEC ground truth.
 
 ![Event Statistics](event_statistics.png)
 
-As shown in the event statistics comparison, while the DSEC dataset recorded over 130 million events during the sequence, our framework produced approximately 19 million.
+As shown in the event statistics comparison, while the DSEC dataset recorded over 130 million events during the sequence, our framework produced approximately 11 million.
 
 ### 3.4 Interpretation
 
-The massive reduction in total events ($14.12 \%$ of GT) is a direct result of our frame-differencing logic. Real DVS sensors operate continuously and are highly susceptible to high-frequency temporal shot noise, hot pixels, and background leak events. Our framework filters this out entirely, capturing only the macroscopic intensity changes between discrete RGB frames.
+The massive reduction in total events ($8.83 \%$ of GT) is a direct result of our frame-differencing logic. Real DVS sensors operate continuously and are highly susceptible to high-frequency temporal shot noise, hot pixels, and background leak events. Our framework filters this out entirely, capturing only the macroscopic intensity changes between discrete RGB frames.
 
 Therefore, although it does not generate the same number of events, it still retains the spatial structure of the event scene. Visual inspection and the LPIPS (0.49-0.58) score confirm that the macroscopic structures are highly similar. The generated frames successfully outline the core dynamics of the scene—such as the road boundaries, houses, and trees—without the background static.
 
@@ -174,7 +174,7 @@ In the context of training Spiking Neural Networks (SNNs), this extreme sparsity
 
 This project successfully demonstrates a lightweight, classical Frame-to-Event conversion framework. By adopting a straightforward intensity-differencing algorithm inspired by the core mechanics of v2e—but stripping away the computationally heavy noise simulation and sub-frame interpolation—we achieved a highly efficient conversion pipeline.
 
-While the generated event streams lack the absolute physical fidelity and microscopic noise profiles of real DVS sensors (resulting in lower SSIM scores), they successfully capture the vital perceptual dynamics of the scene (validated by LPIPS and visual analysis). Crucially, the resulting data is highly sparse, generating only $14 \%$ of the raw data volume compared to physical sensors.
+While the generated event streams lack the absolute physical fidelity and microscopic noise profiles of real DVS sensors (resulting in lower SSIM scores), they successfully capture the vital perceptual dynamics of the scene (validated by LPIPS and visual analysis). Crucially, the resulting data is highly sparse, generating only $8.83 \%$ of the raw data volume compared to physical sensors.
 
 This framework proves to be a viable tool for bridging the data gap in neuromorphic computing, allowing researchers to rapidly convert abundant RGB datasets into clean, sparse event streams suitable for training Spiking Neural Networks.
 
