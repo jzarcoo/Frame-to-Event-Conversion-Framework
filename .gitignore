@@ -18,7 +18,7 @@ uv.lock
 
 requirements.txt
 
-!docs/event_statistics.png
+!docs/figures/**
 !test/frame_metrics.png
 !test/frame_summaries/**
 !test/frames/frame_0171_49607750165_49607800165.png
