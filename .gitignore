@@ -10,6 +10,7 @@ data/thun_00_a/**
 *.mp4
 *.npy
 *.h5
+*.dat
 
 z_*.*
 

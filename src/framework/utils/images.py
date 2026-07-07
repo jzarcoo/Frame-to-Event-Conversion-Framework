@@ -4,7 +4,7 @@ import hdf5plugin
 import numpy as np
 import sys
 
-from framework.utils.eventslicer import EventSlicer
+from framework.utils.dsec.eventslicer import EventSlicer
 
 # BGR color format for OpenCV
 BLUE = (255, 0, 0)
