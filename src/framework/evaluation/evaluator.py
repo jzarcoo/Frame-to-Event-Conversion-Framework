@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-from framework.src.framework.utils.dsec.eventslicer import EventSlicer
+from framework.utils.dsec.eventslicer import EventSlicer
 from framework.utils.images import (
     build_event_image, 
     # dsec_events_to_video,
