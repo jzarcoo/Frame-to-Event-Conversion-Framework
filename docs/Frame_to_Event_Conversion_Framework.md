@@ -99,6 +99,8 @@ To validate the effectiveness of our lightweight RGB-to-event framework, we eval
 uv run python -m framework.evaluation.cli -o test --gt data/thun_00_a/thun_00_a_events_left/events.h5 --pred results/thun_00_a_events.h5
 ```
 
+The `test/` directory included in this repository contains the outputs produced by the evaluation pipeline, including reconstructed event frames (`frames/`), per-frame summaries (`frame_summaries/`), and metric summary images.
+
 The evaluation pipeline compares reconstructed event frames within specific temporal windows of 50 ms (50,000 $\mu$s) across several key metrics.
 
 ![Frame Comparison](../test/frames/frame_0171_49607750165_49607800165.png)
