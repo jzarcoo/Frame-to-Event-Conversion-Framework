@@ -92,7 +92,7 @@ class EventGenerator:
     ):
         """Get the timestamp in microseconds for the given frame index."""
         if timestamps is not None:
-            return int(timestamps[frame_idx])
+            return int(timestamps[frame_idx] - timestamps[0])
         return int((frame_idx / fps) * 1e6)
 
     def generate(
@@ -112,7 +112,7 @@ class EventGenerator:
         Returns:
             int: Total number of events generated.
         """
-        kernel_size = 3 # adjustable parameter for Gaussian blur
+        kernel_size = 5 # adjustable parameter for Gaussian blur
         cap = cv2.VideoCapture(input_video)
         if not cap.isOpened():
             raise RuntimeError(f"Could not open video: {input_video}")
@@ -126,7 +126,7 @@ class EventGenerator:
         if timestamps_path:
             if not os.path.isfile(timestamps_path):
                 raise FileNotFoundError(timestamps_path)
-            timestamps = np.loadtxt(timestamps_path, dtype=np.uint32)
+            timestamps = np.loadtxt(timestamps_path, dtype=np.uint64)
         out = None
         if output_video_path:
             fourcc = cv2.VideoWriter_fourcc(*"mp4v")
@@ -138,11 +138,11 @@ class EventGenerator:
             )
         # Grayscale conversion
         previous = process_frame(frame)
-        # previous = cv2.GaussianBlur(
-        #     previous,
-        #     (kernel_size, kernel_size),
-        #     0,
-        # )
+        previous = cv2.GaussianBlur(
+            previous,
+            (kernel_size, kernel_size),
+            0,
+        )
         frame_idx = 0
         writer = EventH5Writer(output_h5_path)
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -152,11 +152,11 @@ class EventGenerator:
                 break
             frame = self._resize(frame)
             current = process_frame(frame)
-            # current = cv2.GaussianBlur(
-            #     current,
-            #     (kernel_size, kernel_size),
-            #     0,
-            # )
+            current = cv2.GaussianBlur(
+                current,
+                (kernel_size, kernel_size),
+                0,
+            )
             timestamp_us = self._timestamp_us(frame_idx, fps, timestamps)
             events = self._compute_events(previous, current, timestamp_us)
             if events is None:

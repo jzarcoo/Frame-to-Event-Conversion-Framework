@@ -12,15 +12,15 @@ RED = (0, 0, 255)
 
 def process_frame(frame):
     """
-    Convert the input frame to grayscale.
+    Convert the input frame to grayscale and apply logarithmic transformation.
     Args:        
         frame (numpy.ndarray): Input color image.
     Returns:        
-        numpy.ndarray: Grayscale image.
+        numpy.ndarray: Logarithmically transformed grayscale image.
     """
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY).astype(np.float32)
-    # log_image = np.log1p(gray)
-    return gray
+    log_image = np.log1p(gray)
+    return log_image
 
 def build_event_image(events, height, width):
     """
