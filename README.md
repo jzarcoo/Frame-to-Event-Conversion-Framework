@@ -2,51 +2,51 @@
 
 Develop a lightweight, classical (non-learning-based) framework that converts RGB video into an event stream $(x, y, t, p)$.
 
-* [RGB Video](https://drive.google.com/file/d/1msXFjfhcXd0mQUxFB1uFG95AYDQHdoL0/view?usp=sharing)
+* [RGB Video](https://drive.google.com/file/d/1PiMDEtKVP4msxVJJvbl-ifOVd0RU6UVj/view?usp=sharing)
 
-* [Generated Event Video](https://drive.google.com/file/d/1LFSIz1JRwRP5gibhIF8Es-937qeNeaQD/view?usp=sharing)
+* [Generated Event Video](https://drive.google.com/file/d/1v4He8buPo9USED5WRj4nBE6WnspbGiUY/view?usp=sharing)
 
-* [DSEC](https://drive.google.com/file/d/1CYu6uEyCvd8mNtiE88KFAfW66kLx6H4W/view?usp=sharing)
+* [DSEC](https://drive.google.com/file/d/1bz8PZ84WZt9UhJOzAywjUKRVjRrsNVIm/view?usp=sharing)
 
 ## Dataset
 
 Use the [DSEC](https://dsec.ifi.uzh.ch/dsec-datasets/download/) public dataset that provides synchronized RGB frames and ground-truth events.
 
-* For simplicity, we use the `thun_00_a` sequence
+* For simplicity, we use the `zurich_city_13_a` sequence
 * Download the dataset and extract the RGB frames from the left camera.
 
 ```bash
 .
 ├── data
-│   └── thun_00_a
-│       ├── thun_00_a_events_left
+│   └── zurich_city_13_a
+│       ├── zurich_city_13_a_events_left
 │       │   ├── events.h5
 │       │   └── rectify_map.h5
-│       ├── thun_00_a_images_rectified_left
+│       ├── zurich_city_13_a_images_rectified_left
 │       │   ├── 000000.png
 │       │   ├── 000001.png
 │       │   ├── ...
-│       │   └── 000238.png
+│       │   └── 000359.png
 ```
 
 The extracted image sequence can be converted into a video using
 
 ```sh
-ffmpeg -framerate 20 -i %06d.png -c:v mpeg4 -q:v 1 thun_00_a.mp4
+ffmpeg -framerate 20 -i %06d.png -c:v mpeg4 -q:v 1 zurich_city_13_a.mp4
 ```
 
 ```bash
 .
 ├── data
-│   └── thun_00_a
-│       ├── thun_00_a_images_rectified_left
+│   └── zurich_city_13_a
+│       ├── zurich_city_13_a_images_rectified_left
 │       │   ├── ...
-│       │   └── thun_00_a.mp4
+│       │   └── zurich_city_13_a.mp4
 ```
 
 ## How it works
 
-Each RGB frame is converted to grayscale. The processed frame is compared with the last event frame, and pixels whose intensity change exceeds a predefined threshold are marked as events. If enough pixels have changed, an event stream \((x, y, t, p)\) is generated, where \(x\) and \(y\) are the pixel coordinates, \(t\) is the timestamp, and \(p\) is the polarity indicating whether the intensity increased or decreased. The reference frame is updated with the detected changes, and the process repeats for the next frame. The resulting events are rendered and saved as a video for visualization.
+Each RGB frame is converted to **grayscale** and transformed into the **logarithmic intensity domain**. A **Gaussian blur** is then applied to reduce noise. The processed frame is compared with the last event frame, and pixels whose intensity change exceeds a predefined threshold are marked as events. If enough pixels have changed, an event stream ($x, y, t, p$) is generated, where $x$ and $y$ are the pixel coordinates, $t$ is the timestamp, and $p$ is the polarity indicating whether the intensity increased or decreased. The reference frame is updated with the detected changes, and the process repeats for the next frame. The resulting events are rendered and saved as a video for visualization.
 
 ## Installation
 
@@ -63,7 +63,7 @@ cd Frame-to-Event-Conversion-Framework
 uv sync
 ```
 
-## CLI
+## Command-Line Interface (CLI)
 
 The framework provides a command-line interface for converting RGB videos into event streams.
 
@@ -83,13 +83,15 @@ The framework provides a command-line interface for converting RGB videos into e
 ### Example
 
 ```bash
-uv run python -m framework.cli -i data/thun_00_a/thun_00_a_images_rectified_left/thun_00_a.mp4 -o results -t 3 -m 0 --resize 640 480 --video
+uv run python -m framework.cli -i data/zurich_city_13_a/zurich_city_13_a_images_rectified_left/zurich_city_13_a.mp4 -o results -t 0.1 -m 0 --resize 640 480 --video
 ```
 
 This command generates:
 
 ```text
 results/
-├── thun_00_a_events.h5
-└── thun_00_a_video.mp4
+├── zurich_city_13_a_events.h5
+└── zurich_city_13_a_video.mp4
 ```
+
+For more information see the [framework documentation](./docs/Frame_to_Event_Conversion_Framework.md).

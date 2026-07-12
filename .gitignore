@@ -1,9 +1,6 @@
 .ipynb_checkpoints/
 __pycache__/
 
-data/thun_00_a/**
-!data/thun_00_a/window_queries.txt
-
 *.zip
 *.png
 
@@ -17,8 +14,3 @@ z_*.*
 uv.lock
 
 requirements.txt
-
-!docs/figures/**
-!test/frame_metrics.png
-!test/frame_summaries/**
-!test/frames/frame_0171_49607750165_49607800165.png
