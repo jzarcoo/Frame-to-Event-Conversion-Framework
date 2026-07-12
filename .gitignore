@@ -14,3 +14,5 @@ z_*.*
 uv.lock
 
 requirements.txt
+
+!docs/figures/**
