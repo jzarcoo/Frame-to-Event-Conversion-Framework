@@ -21,3 +21,5 @@ requirements.txt
 
 !docs/figures/**
 !out128.gif
+!zurich_city_13_a_summary/frames/frame_0000_41616099917_41616149917.png
+!zurich_city_13_a_summary/histograms/all/histogram_41616099917_41616149917.png
