@@ -440,8 +440,14 @@ The framework reuses a small number of well-established utilities for interopera
   **Source:** https://github.com/yimeng-fan/SFOD/blob/main/prophesee_utils/io/dat_events_tools.py -->
 
 
-## References
+# References
 
 * Delbruck, T., Hu, Y., & Liu, S. (2021). *v2e: From Video Frames to Realistic DVS Events*. Institute of Neuroinformatics, University of Zürich and ETH Zürich, Switzerland. 
 
-* Gehrig, D., Rebecq, H., & Scaramuzza, D. (2018). *ESIM: an Open Event Camera Simulator*. Robotics and Perception Group, Depts. Informatics and Neuroinformatics, University of Zurich and ETH Zurich.
+* Gehrig, M., Aarents, W., Gehrig, D., & Scaramuzza, D. (2021). DSEC: A stereo event camera dataset for driving scenarios. IEEE Robotics and Automation Letters. https://doi.org/10.1109/LRA.2021.3068942
+
+* Gehrig, D., Rebecq, H., & Scaramuzza, D. (2018). *ESIM: an Open Event Camera Simulator*. Robotics and Perception Group, Depts. Informatics and Neuroinformatics, University of Zurich and ETH Zurich. https://rpg.ifi.uzh.ch/docs/CORL18_Rebecq.pdf
+
+* Gehrig, D., & Scaramuzza, D. (2024). Low latency automotive vision with event cameras. Nature.
+
+* Khitushkin, K.S., Isakov, T.T., Bakhshiev, A.V. (2026). Using Spiking Neural Networks for Event and Multimodal Data Processing in Object Detection Tasks. In: Kryzhanovsky, B., Dunin-Barkowski, W., Redko, V., Tiumentsev, Y., Klimov, V.V. (eds) Advances in Neural Computation, Machine Learning, and Cognitive Research IX. NEUROINFORMATICS 2025. Studies in Computational Intelligence, vol 1241. Springer, Cham. https://doi.org/10.1007/978-3-032-07690-8_10
