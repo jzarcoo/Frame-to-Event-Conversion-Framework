@@ -98,7 +98,7 @@ To validate the effectiveness of our lightweight RGB-to-event framework, we eval
 ```bash
 uv run python -m framework.evaluation.cli \
     -o zurich_city_13_a_summary \
-    --gt data/zurich_city_13_a/zurich_city_13_a_events_left/events.h5 \
+    --gt data/dsec/test/zurich_city_13_a/events/left/events.h5 \
     --pred results/zurich_city_13_a_events.h5
 ```
 
@@ -414,17 +414,17 @@ The framework provides a robust command-line interface for processing and evalua
 
 * Evaluate a specific time window:
 ```bash
-uv run python -m framework.evaluation.cli -o timewindow --gt data/thun_00_a/thun_00_a_events_left/events.h5 --pred results/thun_00_a_events.h5 --timewindow 49599800165 49599900165
+uv run python -m framework.evaluation.cli -o timewindow --gt data/dsec/test/zurich_city_13_a/events/left/events.h5 --pred results/zurich_city_13_a_events.h5 --timewindow 49599800165 49599900165
 ```
 
 * Evaluate using a text file of predefined windows:
 ```bash    
-uv run python -m framework.evaluation.cli -o window_queries --gt data/thun_00_a/thun_00_a_events_left/events.h5 --pred results/thun_00_a_events.h5 --windows data/thun_00_a/window_queries.txt
+uv run python -m framework.evaluation.cli -o window_queries --gt data/dsec/test/zurich_city_13_a/events/left/events.h5 --pred results/zurich_city_13_a_events.h5 --windows window_queries.txt
 ```
 
 * Evaluate specific temporal clips in seconds:
 ```bash 
-uv run python -m framework.evaluation.cli -o clip --gt data/thun_00_a/thun_00_a_events_left/events.h5 --pred results/thun_00_a_events.h5 --seconds 9 10
+uv run python -m framework.evaluation.cli -o clip --gt data/dsec/test/zurich_city_13_a/events/left/events.h5 --pred results/zurich_city_13_a_events.h5 --seconds 1 5
 ```
 
 ## 4.2 Third-Party Utilities

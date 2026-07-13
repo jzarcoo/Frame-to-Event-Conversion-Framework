@@ -16,17 +16,17 @@ Use the [DSEC](https://dsec.ifi.uzh.ch/dsec-datasets/download/) public dataset t
 * Download the dataset and extract the RGB frames from the left camera.
 
 ```bash
-.
-├── data
-│   └── zurich_city_13_a
-│       ├── zurich_city_13_a_events_left
-│       │   ├── events.h5
-│       │   └── rectify_map.h5
-│       ├── zurich_city_13_a_images_rectified_left
-│       │   ├── 000000.png
-│       │   ├── 000001.png
-│       │   ├── ...
-│       │   └── 000359.png
+./data/dsec/test/zurich_city_13_a/
+├── calibration  
+├── events  
+├── images  
+│   └── left
+│       └── distorted
+│           ├── 000000.png
+│           ├── 000001.png
+│           ├── ...
+│           └── 000359.png
+└── object_detections
 ```
 
 The extracted image sequence can be converted into a video using
@@ -36,12 +36,13 @@ ffmpeg -framerate 20 -i %06d.png -c:v mpeg4 -q:v 1 zurich_city_13_a.mp4
 ```
 
 ```bash
-.
-├── data
-│   └── zurich_city_13_a
-│       ├── zurich_city_13_a_images_rectified_left
-│       │   ├── ...
-│       │   └── zurich_city_13_a.mp4
+./data/dsec/test/zurich_city_13_a/
+├── calibration  
+├── events  
+├── images  
+├── object_detections
+└── video
+    └── zurich_city_13_a.mp4
 ```
 
 ## How it works
@@ -83,7 +84,7 @@ The framework provides a command-line interface for converting RGB videos into e
 ### Example
 
 ```bash
-uv run python -m framework.cli -i data/zurich_city_13_a/zurich_city_13_a_images_rectified_left/zurich_city_13_a.mp4 -o results -t 0.1 -m 0 --resize 640 480 --video
+uv run python -m framework.cli -i data/dsec/test/zurich_city_13_a/video/zurich_city_13_a.mp4 -o results -t 0.1 -m 0 --resize 640 480 --video
 ```
 
 This command generates:
