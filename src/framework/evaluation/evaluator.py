@@ -18,7 +18,7 @@ from .visualization import (
 )
 from .windows import load_windows
 
-def events_to_frame(
+def slicer_to_frame(
     slicer,
     start_us,
     end_us,
@@ -201,117 +201,6 @@ class EventEvaluator:
         print(f"Analysis saved to {save_path}")
         print(f"Valid evaluations : {len(results)}")
         print(f"Skipped           : {skipped}")
-
-        
-
-    # def _save_summary(
-    #     self,
-    #     results,
-    #     skipped,
-    #     prefix="window",
-    # ):
-    #     """
-    #     Save a summary of the evaluation results, including metrics and visualizations.
-    #     Args:
-    #         results (list): List of dictionaries containing evaluation metrics for each window.
-    #         skipped (int): Number of skipped windows due to errors or invalid data.
-    #         prefix (str): Prefix for the output files.
-    #     """
-    #     if len(results) == 0:
-    #         print("No valid evaluations.")
-    #         return
-    #     plot_metrics(
-    #         results,
-    #         save_path=os.path.join(
-    #             self.output_dir,
-    #             "metrics.png"
-    #         )
-    #     )
-    #     metrics_list = ["mse", "mae", "ssim", "psnr", "lpips"]
-    #     summary_dir = os.path.join(self.output_dir, "summaries")
-    #     os.makedirs(summary_dir, exist_ok=True)
-    #     print()
-    #     print(f"Valid evaluations : {len(results)}")
-    #     print(f"Skipped           : {skipped}")
-    #     print("-" * 50)
-    #     print(f"{'METRIC':<8} | {'BEST VALUE':<12} | {'WORST VALUE':<12}")
-    #     print("-" * 50)
-    #     for metric in metrics_list:
-    #         lower_is_better = metric in ["mse", "mae", "lpips"]
-    #         if lower_is_better:
-    #             best_res = min(results, key=lambda r: r[metric])
-    #             worst_res = max(results, key=lambda r: r[metric])
-    #         else:
-    #             best_res = max(results, key=lambda r: r[metric])
-    #             worst_res = min(results, key=lambda r: r[metric])
-    #         print(f"{metric.upper():<8} | {best_res[metric]:<12.4f} | {worst_res[metric]:<12.4f}")
-    #         save_path = os.path.join(summary_dir, f"{metric}_summary_quad.png")
-    #         self._save_metric_quad(best_res, worst_res, metric, save_path)
-
-    # def _save_metric_quad(
-    #     self,
-    #     best_res,
-    #     worst_res,
-    #     metric_name,
-    #     save_path,
-    # ):
-    #     """
-    #     Save a 2x2 grid of images showing the best and worst frames for a specific metric.
-    #     Args:
-    #         best_res (dict): Dictionary containing the best evaluation result for the metric.
-    #         worst_res (dict): Dictionary containing the worst evaluation result for the metric.
-    #         metric_name (str): Name of the metric being evaluated.
-    #         save_path (str): Path to save the resulting image.
-    #     """
-    #     best_gt_img = events_to_frame(
-    #         self.gt_slicer, best_res["start_us"], best_res["end_us"], self.width, self.height
-    #     )
-    #     best_pred_img = events_to_frame(
-    #         self.pred_slicer, best_res["start_us"], best_res["end_us"], self.width, self.height
-    #     )
-    #     worst_gt_img = events_to_frame(
-    #         self.gt_slicer, worst_res["start_us"], worst_res["end_us"], self.width, self.height
-    #     )
-    #     worst_pred_img = events_to_frame(
-    #         self.pred_slicer, worst_res["start_us"], worst_res["end_us"], self.width, self.height
-    #     )
-
-    #     fallback_shape = (self.height, self.width, 3)
-    #     if best_gt_img is False: best_gt_img = np.zeros(fallback_shape, dtype=np.uint8)
-    #     if best_pred_img is False: best_pred_img = np.zeros(fallback_shape, dtype=np.uint8)
-    #     if worst_gt_img is False: worst_gt_img = np.zeros(fallback_shape, dtype=np.uint8)
-    #     if worst_pred_img is False: worst_pred_img = np.zeros(fallback_shape, dtype=np.uint8)
-
-    #     fig, axs = plt.subplots(2, 2, figsize=(14, 12))
-
-    #     # Best Frame
-    #     axs[0, 0].imshow(cv2.cvtColor(best_gt_img, cv2.COLOR_BGR2RGB))
-    #     axs[0, 0].set_title(f"Best GT\nTime: {best_res['start_us']}-{best_res['end_us']} us", fontsize=10)
-    #     axs[0, 0].axis("off")
-
-    #     axs[0, 1].imshow(cv2.cvtColor(best_pred_img, cv2.COLOR_BGR2RGB))
-    #     axs[0, 1].set_title(f"Best Prediction\n{metric_name.upper()}: {best_res[metric_name]:.4f}", fontsize=10)
-    #     axs[0, 1].axis("off")
-        
-    #     # Worst Frame
-    #     axs[1, 0].imshow(cv2.cvtColor(worst_gt_img, cv2.COLOR_BGR2RGB))
-    #     axs[1, 0].set_title(f"Worst GT\nTime: {worst_res['start_us']}-{worst_res['end_us']} us", fontsize=10)
-    #     axs[1, 0].axis("off")
-
-    #     axs[1, 1].imshow(cv2.cvtColor(worst_pred_img, cv2.COLOR_BGR2RGB))
-    #     axs[1, 1].set_title(f"Worst Prediction\n{metric_name.upper()}: {worst_res[metric_name]:.4f}", fontsize=10)
-    #     axs[1, 1].axis("off")
-
-    #     plt.suptitle(
-    #         f"Metric Summary: {metric_name.upper()}\n"
-    #         f"Best: {best_res[metric_name]:.4f} vs Worst: {worst_res[metric_name]:.4f}",
-    #         fontsize=16,
-    #         fontweight="bold"
-    #     )
-        
-    #     plt.tight_layout()
-    #     fig.savefig(save_path, bbox_inches="tight")
-    #     plt.close(fig)
 
     def _compute_histogram(self, evs):
         """
