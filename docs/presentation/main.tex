@@ -165,6 +165,8 @@
   \titlepage
 \end{frame}
 
+\section{Background}
+
 \begin{frame}
   \frametitle{\textbf{Table of Contents}}
   \tableofcontents[
@@ -174,9 +176,6 @@
   section=1-100                
   ]
 \end{frame}
-
-
-\section{Background}
 
 \begin{frame}{Background}
 
@@ -326,69 +325,69 @@
 
 \begin{frame}{Framework Implementation}
 
-\begin{columns}[T]
+  \begin{columns}[T]
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\column{0.45\textwidth}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+    \column{0.45\textwidth}
 
-% \begin{block}{Processing Pipeline}
-%     \centering
-%     \vspace{0.2cm}
+    % \begin{block}{Processing Pipeline}
+    %   \centering
+    %   \vspace{0.2cm}
     \begin{tikzpicture}[
-        node distance=0.35cm,
-        box/.style={draw=black!70, fill=blue!5, thick, rounded corners, align=center, font=\small, minimum width=3.8cm, minimum height=0.6cm},
-        arrow/.style={thick, ->, >=stealth, draw=black!70}
-    ]
-    
-    % Nodes
-    \node (rgb) [box] {RGB Frame};
-    \node (gray) [box, below=of rgb] {Grayscale};
-    \node (log) [box, below=of gray] {Log Intensity};
-    \node (blur) [box, below=of log] {Gaussian Blur};
-    \node (diff) [box, below=of blur] {Frame Difference};
-    \node (thresh) [box, below=of diff] {Threshold};
-    \node (event) [box, fill=orange!15, draw=orange!80, below=of thresh] {Event: $(x, y, t, p)$};
-    
-    % Arrows
-    \draw [arrow] (rgb) -- (gray);
-    \draw [arrow] (gray) -- (log);
-    \draw [arrow] (log) -- (blur);
-    \draw [arrow] (blur) -- (diff);
-    \draw [arrow] (diff) -- (thresh);
-    \draw [arrow] (thresh) -- (event);
-    
+      node distance=0.35cm,
+      box/.style={draw=black!70, fill=blue!5, thick, rounded corners, align=center, font=\small, minimum width=3.8cm, minimum height=0.6cm},
+      arrow/.style={thick, ->, >=stealth, draw=black!70}
+      ]
+      
+      % Nodes
+      \node (rgb) [box] {RGB Frame};
+      \node (gray) [box, below=of rgb] {Grayscale};
+      \node (log) [box, below=of gray] {Log Intensity};
+      \node (blur) [box, below=of log] {Gaussian Blur};
+      \node (diff) [box, below=of blur] {Frame Difference};
+      \node (thresh) [box, below=of diff] {Threshold};
+      \node (event) [box, fill=orange!15, draw=orange!80, below=of thresh] {Event: $(x, y, t, p)$};
+      
+      % Arrows
+      \draw [arrow] (rgb) -- (gray);
+      \draw [arrow] (gray) -- (log);
+      \draw [arrow] (log) -- (blur);
+      \draw [arrow] (blur) -- (diff);
+      \draw [arrow] (diff) -- (thresh);
+      \draw [arrow] (thresh) -- (event);
+      
     \end{tikzpicture}
-%     \vspace{0.2cm}
-% \end{block}
+    % \vspace{0.2cm}
+    % \end{block}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\column{0.5\textwidth}
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+    \column{0.5\textwidth}
 
-\begin{block}{Event Generation}
-    For every pixel, calculate the intensity change:
-    \[
-    \Delta L = L_t - L_{t-1}
-    \]
-    Generate an event if the change exceeds $\theta$:
-    \[
-    p = 
-    \begin{cases} 
-    +1, & \text{if } \Delta L > \theta \\ 
-    -1, & \text{if } \Delta L < -\theta 
-    \end{cases}
-    \]
-\end{block}
+    \begin{block}{Event Generation}
+      For every pixel, calculate the intensity change:
+      \[
+        \Delta L = L_t - L_{t-1}
+      \]
+      Generate an event if the change exceeds $\theta$:
+      \[
+        p = 
+        \begin{cases} 
+          +1, & \text{if } \Delta L > \theta \\ 
+          -1, & \text{if } \Delta L < -\theta 
+        \end{cases}
+      \]
+    \end{block}
 
-%\vspace{0.2cm}
+    % \vspace{0.2cm}
 
-%\begin{block}{Command-Line Interface}
+    % \begin{block}{Command-Line Interface}
     \scriptsize
     \texttt{\textbf{\$} uv run python -m framework.cli \textbackslash} \\
     \texttt{\hspace*{0.5cm}-i input.mp4 -o results \textbackslash} \\
     \texttt{\hspace*{0.5cm}-t 0.1 --resize 640 480 --video}
-%\end{block}
+    % \end{block}
 
-\end{columns}
+  \end{columns}
 
 \end{frame}
 
@@ -461,6 +460,16 @@
 
 \subsection{Quantitative Results}
 
+\begin{frame}
+  \frametitle{\textbf{Table of Contents}}
+  \tableofcontents[
+  hideallsubsections=false
+  sectionstyle=show/shaded,    
+  subsectionstyle=show/shaded/hide, 
+  section=1-100                
+  ]
+\end{frame}
+
 \begin{frame}{Quantitative Results}
 
   \begin{columns}[T]
@@ -472,11 +481,10 @@
       \begin{center}
         \includegraphics[
         width=\linewidth,
-        height=0.58\textheight,
+        height=0.6\textheight,
         keepaspectratio
         ]{figures/linear_regression.png}
       \end{center}
-
       \begin{center}
         \small
         Pearson Correlation:
@@ -486,7 +494,7 @@
     \end{block}
     \column{0.37\textwidth}
 
-    \begin{block}{SPARSITY YIELD}
+    \begin{block}{Sparsity Yield}
 
       \vspace{0.3cm}
 
@@ -511,9 +519,9 @@
 
     \end{block}
 
-    \vspace{0.3cm}
+    \vspace{0.1cm}
 
-    \begin{block}{SPATIAL PRECISION}
+    \begin{block}{Spatial Precision}
 
       \vspace{0.2cm}
 
@@ -539,6 +547,16 @@
 \end{frame}
 
 \subsection{Object Detection}
+
+\begin{frame}
+  \frametitle{\textbf{Table of Contents}}
+  \tableofcontents[
+  hideallsubsections=false
+  sectionstyle=show/shaded,    
+  subsectionstyle=show/shaded/hide, 
+  section=1-100                
+  ]
+\end{frame}
 
 
 \begin{frame}{Object Detection}
