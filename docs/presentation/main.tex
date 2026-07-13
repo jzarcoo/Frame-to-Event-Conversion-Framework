@@ -571,18 +571,18 @@
 
     \column{0.49\textwidth}
 
-    \begin{block}{DSEC Events (mAP: 0.18)}
+    \begin{block}{DSEC Events}
 
       \begin{figure}[h]
         \centering
-        \includegraphics[width=\linewidth]{figures/object_detection/dsec/img/frame_001.png}
+        \includegraphics[width=\linewidth]{figures/object_detection/dsec/gt.png}
       \end{figure}
 
     \end{block}
 
     \column{0.49\textwidth}
 
-    \begin{block}{Synthetic Events (mAP: 0.00)}
+    \begin{block}{Synthetic Events}
 
       \begin{figure}[h]
         \centering
@@ -596,9 +596,10 @@
 
   \vspace{0.3cm}
 
+  The detector successfully identifies several vehicles and pedestrians when using the original DSEC event stream. In contrast, when using the generated events, only a small number of detections remain.
   % \begin{alertblock}{Insight}
-  \textbf{Insight:}
-  While structurally similar, the statistical distribution differs significantly. Networks trained purely on real sensors cannot generalize to synthetic data without domain adaptation or fine-tuning.
+  % \textbf{Insight:}
+  % While structurally similar, the statistical distribution differs significantly. Networks trained purely on real sensors cannot generalize to synthetic data without domain adaptation or fine-tuning.
   % \end{alertblock}
 
 \end{frame}
@@ -628,20 +629,20 @@
 
     \column{0.48\textwidth}
 
-    {\Large\bfseries Limitations}
+    % {\Large\bfseries Limitations}
 
-    \vspace{0.1cm}
-    \color{colorRight}\rule{\linewidth}{1pt}
+    % \vspace{0.1cm}
+    % \color{colorRight}\rule{\linewidth}{1pt}
 
-    \vspace{0.1cm}
+    % \vspace{0.1cm}
 
-    \begin{itemize}
-    \item[$\rightarrow$] Event statistics differ from real DVS cameras.
+    % \begin{itemize}
+    % \item[$\rightarrow$] Event statistics differ from real DVS cameras.
 
-    \item[$\rightarrow$] Zero-shot object detection does not generalize.
+    % \item[$\rightarrow$] Zero-shot object detection does not generalize.
 
-    \item[$\rightarrow$] Domain adaptation or fine-tuning is required for SNNs.
-    \end{itemize}
+    % \item[$\rightarrow$] Domain adaptation or fine-tuning is required for SNNs.
+    % \end{itemize}
 
   \end{columns}
 
