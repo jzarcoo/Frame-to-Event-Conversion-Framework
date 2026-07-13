@@ -11,6 +11,8 @@ __pycache__/
 *.yaml
 *.gif
 
+events.out.*
+
 z_*.*
 
 uv.lock
@@ -18,3 +20,4 @@ uv.lock
 requirements.txt
 
 !docs/figures/**
+!out128.gif
