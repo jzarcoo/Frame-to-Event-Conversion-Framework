@@ -1,15 +1,34 @@
 .ipynb_checkpoints/
 __pycache__/
 
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.lof
+*.lot
+*.lol
+
+*~
+*.swp
+
 *.zip
 *.png
-
 *.mp4
+*.gif
+
 *.npy
 *.h5
 *.dat
 *.yaml
-*.gif
 
 events.out.*
 
@@ -23,3 +42,4 @@ requirements.txt
 !out128.gif
 !zurich_city_13_a_summary/frames/frame_0000_41616099917_41616149917.png
 !zurich_city_13_a_summary/histograms/all/histogram_41616099917_41616149917.png
+!docs/presentation/figures/**
