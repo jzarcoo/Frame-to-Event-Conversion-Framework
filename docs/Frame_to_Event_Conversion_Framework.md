@@ -451,3 +451,5 @@ The framework reuses a small number of well-established utilities for interopera
 * Gehrig, D., & Scaramuzza, D. (2024). Low latency automotive vision with event cameras. Nature.
 
 * Khitushkin, K.S., Isakov, T.T., Bakhshiev, A.V. (2026). Using Spiking Neural Networks for Event and Multimodal Data Processing in Object Detection Tasks. In: Kryzhanovsky, B., Dunin-Barkowski, W., Redko, V., Tiumentsev, Y., Klimov, V.V. (eds) Advances in Neural Computation, Machine Learning, and Cognitive Research IX. NEUROINFORMATICS 2025. Studies in Computational Intelligence, vol 1241. Springer, Cham. https://doi.org/10.1007/978-3-032-07690-8_10
+
+* Y. Hu, S-C. Liu, and T. Delbruck. v2e: From Video Frames to Realistic DVS Events. In 2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), URL: https://arxiv.org/abs/2006.07722, 2021
