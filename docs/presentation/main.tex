@@ -6,12 +6,14 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,calc,decorations.pathreplacing}
 \usepackage{xcolor}
+\usepackage{colortbl}
 \usetikzlibrary{shadings}
 
 \usepackage{multimedia}
 \usepackage{animate}
 \usepackage{tikz}
 \usetikzlibrary{positioning}
+\usepackage{booktabs}
 
 \useoutertheme[subsection=false]{miniframes}
 \usecolortheme{seagull}
@@ -476,7 +478,7 @@
 
     \column{0.60\textwidth}
 
-    \begin{block}{Event Count Correlation}
+    %\begin{block}{Event Count Correlation}
 
       \begin{center}
         \includegraphics[
@@ -491,7 +493,7 @@
         \textbf{0.709} \\ Tracks scene activity accurately.
       \end{center}
 
-    \end{block}
+    %\end{block}
     \column{0.37\textwidth}
 
     \begin{block}{Sparsity Yield}
@@ -546,6 +548,42 @@
 
 \end{frame}
 
+\subsection{Comparison with v2e}
+
+\begin{frame}
+  \frametitle{\textbf{Table of Contents}}
+  \tableofcontents[
+  hideallsubsections=false
+  sectionstyle=show/shaded,    
+  subsectionstyle=show/shaded/hide, 
+  section=1-100                
+  ]
+\end{frame}
+
+\begin{frame}{Comparison with v2e}
+
+\centering
+\small
+
+\renewcommand{\arraystretch}{1.2}
+
+\begin{tabular}{lcc}
+\rowcolor{colorLeft}
+\color{white}\textbf{Metric} &
+\color{white}\textbf{v2e} &
+\color{white}\textbf{Proposed Framework} \\
+\hline
+Event Count         & 75.8 M          & 27.9 M \\
+DSEC Percentage     & 49.79\%         & 18.29\% \\
+Pearson Correlation & \textbf{0.867}  & 0.709 \\
+Precision (ALL)     & 0.9127          & \textbf{0.9356} \\
+Recall (ALL)        & \textbf{0.9494} & 0.8093 \\
+F1-score (ALL)      & \textbf{0.9291} & 0.8675 \\
+\end{tabular}
+
+\vspace{0.45cm}
+\end{frame}
+
 \subsection{Object Detection}
 
 \begin{frame}
@@ -560,46 +598,49 @@
 
 
 \begin{frame}{Object Detection}
-
-  \small
+  \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.75\linewidth]{figures/twl_spike_yolo.png}
+      \end{figure}
+  \footnotesize
   Tested with pre-trained \textbf{TWL SpikeYOLO}
   % (zero-shot transfer).           
 
   % \vspace{0.4cm}
 
-  \begin{columns}[T]
+  % \begin{columns}[T]
 
-    \column{0.49\textwidth}
+  %   \column{0.49\textwidth}
 
-    \begin{block}{DSEC Events}
+  %   \begin{block}{DSEC Events}
 
-      \begin{figure}[h]
-        \centering
-        \includegraphics[width=\linewidth]{figures/object_detection/dsec/gt.png}
-      \end{figure}
+  %     \begin{figure}[h]
+  %       \centering
+  %       \includegraphics[width=\linewidth]{figures/object_detection/dsec/gt.png}
+  %     \end{figure}
 
-    \end{block}
+  %   \end{block}
 
-    \column{0.49\textwidth}
+  %   \column{0.49\textwidth}
 
-    \begin{block}{Synthetic Events}
+  %   \begin{block}{Synthetic Events}
 
-      \begin{figure}[h]
-        \centering
-        \includegraphics[width=\linewidth]{figures/object_detection/framework/img/frame_001.png}
-      \end{figure}
+  %     \begin{figure}[h]
+  %       \centering
+  %       \includegraphics[width=\linewidth]{figures/object_detection/framework/img/frame_001.png}
+  %     \end{figure}
 
-    \end{block}
+  %   \end{block}
 
 
-  \end{columns}
+  % \end{columns}
 
-  \vspace{0.3cm}
+  % \vspace{0.3cm}
 
-  The detector successfully identifies several vehicles and pedestrians when using the original DSEC event stream. In contrast, when using the generated events, only a small number of detections remain.
+  % The detector successfully identifies several vehicles and pedestrians when using the original DSEC event stream. In contrast, when using the generated events, only a small number of detections remain.
   % \begin{alertblock}{Insight}
-  % \textbf{Insight:}
-  % While structurally similar, the statistical distribution differs significantly. Networks trained purely on real sensors cannot generalize to synthetic data without domain adaptation or fine-tuning.
+  %   \textbf{Insight:}
+  %   While structurally similar, the statistical distribution differs significantly. Networks trained purely on real sensors cannot generalize to synthetic data without domain adaptation or fine-tuning.
   % \end{alertblock}
 
 \end{frame}
@@ -665,21 +706,21 @@
 \begin{frame}{Bibliography}
   \begin{thebibliography}{9}
 
-  \bibitem{v2e} Delbruck, T., Hu, Y., \& Liu, S. (2021). \textit{v2e: From Video Frames to Realistic DVS Events}. Institute of Neuroinformatics, University of Zürich and ETH Zürich, Switzerland.
-
   \bibitem{dsec} Gehrig, M., Aarents, W., Gehrig, D., & Scaramuzza, D. (2021). DSEC: A stereo event camera dataset for driving scenarios. IEEE Robotics and Automation Letters. \url{https://doi.org/10.1109/LRA.2021.3068942}
     
   \bibitem{esim} Gehrig, D., Rebecq, H., \& Scaramuzza, D. (2018). \textit{ESIM: an Open Event Camera Simulator}. Robotics and Perception Group, Depts. Informatics and Neuroinformatics, University of Zurich and ETH Zurich. \url{https://rpg.ifi.uzh.ch/docs/CORL18_Rebecq.pdf}
+
+  \bibitem{dsec-det} Gehrig, D., & Scaramuzza, D. (2024). Low latency automotive vision with event cameras. Nature.
 
   \end{thebibliography}
   
 \end{frame}
 \begin{frame}{Bibliography}
   \begin{thebibliography}{9}
-
-  \bibitem{dsec-det} Gehrig, D., & Scaramuzza, D. (2024). Low latency automotive vision with event cameras. Nature.
     
   \bibitem{model} Khitushkin, K.S., Isakov, T.T., Bakhshiev, A.V. (2026). Using Spiking Neural Networks for Event and Multimodal Data Processing in Object Detection Tasks. In: Kryzhanovsky, B., Dunin-Barkowski, W., Redko, V., Tiumentsev, Y., Klimov, V.V. (eds) Advances in Neural Computation, Machine Learning, and Cognitive Research IX. NEUROINFORMATICS 2025. Studies in Computational Intelligence, vol 1241. Springer, Cham. \url{https://doi.org/10.1007/978-3-032-07690-8_10}
+
+  \bibitem{v2e} Y. Hu, S-C. Liu, and T. Delbruck. v2e: From Video Frames to Realistic DVS Events. In 2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW), URL: https://arxiv.org/abs/2006.07722, 2021
     
   \end{thebibliography}
   
