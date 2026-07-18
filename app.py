@@ -1,0 +1,170 @@
+import streamlit as st
+import streamlit.components.v1 as components
+import os
+
+# Configuración de la página
+st.set_page_config(
+    page_title="Frame-to-Event Framework",
+    page_icon=":computer:",
+    layout="wide"
+)
+
+# ==========================================
+# 1. SIDEBAR
+# ==========================================
+lang = st.sidebar.radio("Language / Idioma", ["English", "Español"])
+
+st.sidebar.markdown("---")
+if lang == "English":
+    st.sidebar.markdown("### Links")
+    st.sidebar.markdown("[GitHub Repository](https://github.com/jzarcoo/Frame-to-Event-Conversion-Framework)")
+    st.sidebar.markdown("---")
+    st.sidebar.info("**Developed by:**\n\nJosé Antonio Zarco Romero  \n*Technische Hochschule Ingolstadt*")
+else:
+    st.sidebar.markdown("### Enlaces")
+    st.sidebar.markdown("[Repositorio en GitHub](https://github.com/jzarcoo/Frame-to-Event-Conversion-Framework)")
+    st.sidebar.markdown("---")
+    st.sidebar.info("**Desarrollado por:**\n\nJosé Antonio Zarco Romero  \n*Technische Hochschule Ingolstadt*")
+
+# ==========================================
+# 2. TITLE
+# ==========================================
+st.title("Frame-to-Event Conversion Framework")
+if lang == "English":
+    st.markdown("A lightweight, classical framework to convert RGB video into asynchronous event streams $(x, y, t, p)$ for Spiking Neural Networks (SNNs).")
+else:
+    st.markdown("Un framework clásico y ligero para convertir video RGB en flujos de eventos asíncronos $(x, y, t, p)$ para Spiking Neural Networks (SNNs).")
+
+# ==========================================
+# 3. TABS
+# ==========================================
+if lang == "English":
+    tabs = st.tabs(["Pipeline", "Visual Comparison", "Object Detection (SpikeYOLO)", "Metrics", "Bibliography"])
+else:
+    tabs = st.tabs(["Pipeline", "Comparación Visual", "Detección de Objetos (SpikeYOLO)", "Métricas", "Bibliografía"])
+
+# --- TAB 1: PIPELINE ---
+with tabs[0]:
+    if lang == "English":
+        st.header("How does it work?")
+        st.markdown("Unlike ESIM (3D rendering) or v2e (Super-SloMo interpolation), this framework uses low-cost classical processing:")
+    else:
+        st.header("¿Cómo funciona?")
+        st.markdown("A diferencia de ESIM (renderizado 3D) o v2e (interpolación Super-SloMo), este framework utiliza un procesamiento clásico de bajo costo:")
+    
+    st.info("**RGB Frame** ➔ **Grayscale** ➔ **Log Intensity** ➔ **Gaussian Blur** ➔ **Frame Difference** ➔ **Threshold** ➔ **Event $(x,y,t,p)$**")
+    
+    if lang == "English":
+        st.markdown("For each pixel, we calculate the temporal intensity change: $\\Delta L = L_t - L_{t-1}$")
+        st.markdown("An event is generated if the change exceeds a threshold $\\theta$:")
+    else:
+        st.markdown("Para cada píxel, calculamos el cambio de intensidad temporal: $\\Delta L = L_t - L_{t-1}$")
+        st.markdown("Generamos un evento si el cambio excede un umbral $\\theta$:")
+        
+    st.latex(r"p = \begin{cases} +1, & \text{if } \Delta L > \theta \\ -1, & \text{if } \Delta L < -\theta \end{cases}")
+
+# --- TAB 2: VIDEOS DRIVE ---
+with tabs[1]:
+    if lang == "English":
+        st.header("Visual Comparison (Zurich City 13 a)")
+        st.markdown("Evaluation on **Zurich City 13 a** sequence using 50 ms temporal windows.")
+    else:
+        st.header("Comparación Visual (Zurich City 13 a)")
+        st.markdown("Evaluación en la secuencia **Zurich City 13 a** usando ventanas temporales de 50 ms.")
+        
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if lang == "English":
+            st.subheader("Original DSEC Event Camera")
+        else:
+            st.subheader("Cámara de Eventos DSEC Original")
+        # Video DSEC incrustado desde Google Drive
+        components.html('<iframe src="https://drive.google.com/file/d/1bz8PZ84WZt9UhJOzAywjUKRVjRrsNVIm/preview" width="100%" height="480" allow="autoplay"></iframe>', height=480)
+        
+    with col2:
+        if lang == "English":
+            st.subheader("Generated Synthetic Events (Framework Proposed)")
+        else:
+            st.subheader("Eventos Sintéticos (Framework Propuesto)")
+        # Video Framework incrustado desde Google Drive
+        components.html('<iframe src="https://drive.google.com/file/d/1v4He8buPo9USED5WRj4nBE6WnspbGiUY/preview" width="100%" height="480" allow="autoplay"></iframe>', height=480)
+
+# --- TAB 3: OBJECT DETECTION ---
+with tabs[2]:
+    if lang == "English":
+        st.header("Object Detection (TWL SpikeYOLO)")
+        st.markdown("Prediction comparison using synthetic events vs original DSEC camera and v2e.")
+    else:
+        st.header("Detección de Objetos (TWL SpikeYOLO)")
+        st.markdown("Comparación de predicciones usando eventos sintéticos vs cámara DSEC original y v2e.")
+
+    col1, col2, col3 = st.columns(3)
+    base_path = "object_detection_evaluation/zurich_city_13_a"
+    
+    with col1:
+        st.subheader("1. DSEC (Ground Truth)")
+        dsec_gif = os.path.join(base_path, "gt.png")
+        if os.path.exists(dsec_gif): st.image(dsec_gif, use_container_width=True)
+        else: st.warning("GIF no encontrado / GIF not found")
+            
+    with col2:
+        st.subheader("2. Framework")
+        framework_gif = os.path.join(base_path, "framework/predict/log/out128.gif")
+        if os.path.exists(framework_gif): st.image(framework_gif, use_container_width=True)
+        else: st.warning("GIF no encontrado / GIF not found")
+            
+    with col3:
+        st.subheader("3. v2e")
+        v2e_gif = os.path.join(base_path, "v2e/predict/log/out128.gif")
+        if os.path.exists(v2e_gif): st.image(v2e_gif, use_container_width=True)
+        else: st.warning("GIF no encontrado / GIF not found")
+        
+    if lang == "English":
+        st.info("**Insight:** While structurally similar, the statistical distribution differs significantly. Networks trained purely on real sensors cannot generalize to synthetic data without domain adaptation or fine-tuning.")
+    else:
+        st.info("**Insight:** Mientras que las estructuras son similares, la distribución estadística difiere. Las redes preentrenadas puramente en sensores reales sufren al generalizar a datos sintéticos sin adaptación de dominio.")
+
+# --- TAB 4: MÉTRICAS ---
+with tabs[3]:
+    if lang == "English":
+        st.header("Metrics: v2e vs Our Framework")
+    else:
+        st.header("Métricas: v2e vs Nuestro Framework")
+        
+    metrics_data = {
+        "Metric / Métrica": ["Event Count", "DSEC Percentage", "Pearson Correlation", "Precision (ALL)", "Recall (ALL)", "F1-score (ALL)"],
+        "v2e": ["75.8 M", "49.79%", "0.867", "0.9127", "0.9494", "0.9291"],
+        "Framework": ["27.9 M", "18.29%", "0.709", "0.9356", "0.8093", "0.8675"]
+    }
+    st.dataframe(metrics_data, use_container_width=True, hide_index=True)
+    
+    if lang == "English":
+        st.markdown("""
+        ### Framework Achievements:
+        * **Lightweight:** Avoids expensive rendering & sub-frame interpolation.
+        * **Spatial Precision:** Events happen in the correct regions (Precision: **93.5%**).
+        * **Efficiency:** Reduces redundant events (18.3% yield) while maintaining scene dynamics.
+        """)
+    else:
+        st.markdown("""
+        ### Logros del Framework:
+        * **Ligero:** Evita el costoso renderizado e interpolación de sub-frames.
+        * **Precisión Espacial:** Mantiene los eventos en las regiones correctas (Precisión: **93.5%**).
+        * **Eficiencia:** Reduce eventos redundantes (18.3% yield) manteniendo dinámicas de la escena.
+        """)
+
+# --- TAB 5: BIBLIOGRAFÍA ---
+with tabs[4]:
+    if lang == "English":
+        st.header("Bibliography")
+    else:
+        st.header("Bibliografía")
+        
+    st.markdown("""
+    1. Gehrig, M., Aarents, W., Gehrig, D., & Scaramuzza, D. (2021). **DSEC: A stereo event camera dataset for driving scenarios.** *IEEE Robotics and Automation Letters*. [DOI](https://doi.org/10.1109/LRA.2021.3068942)
+    2. Gehrig, D., Rebecq, H., & Scaramuzza, D. (2018). **ESIM: an Open Event Camera Simulator.** *Robotics and Perception Group, University of Zurich and ETH Zurich*. [PDF](https://rpg.ifi.uzh.ch/docs/CORL18_Rebecq.pdf)
+    3. Gehrig, D., & Scaramuzza, D. (2024). **Low latency automotive vision with event cameras.** *Nature*.
+    4. Khitushkin, K.S., Isakov, T.T., Bakhshiev, A.V. (2026). **Using Spiking Neural Networks for Event and Multimodal Data Processing in Object Detection Tasks.** *Springer, Cham*. [DOI](https://doi.org/10.1007/978-3-032-07690-8_10)
+    5. Hu, Y., Liu, S-C., & Delbruck, T. (2021). **v2e: From Video Frames to Realistic DVS Events.** *CVPRW*. [arXiv](https://arxiv.org/abs/2006.07722)
+    """)
