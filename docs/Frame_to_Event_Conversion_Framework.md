@@ -518,6 +518,12 @@ The framework reuses a small number of well-established utilities for interopera
   The `EventSlicer` implementation (`src/framework/utils/dsec/eventslicer.py`) is adapted from the official DSEC repository and is used to efficiently retrieve temporal event windows from HDF5 event files during preprocessing and evaluation.  
   **Source:** https://github.com/uzh-rpg/DSEC/blob/main/scripts/utils/eventslicer.py
 
+## 4.3 Live Demo
+
+A public demonstration of the framework is available through a [Streamlit application](https://frame-to-event-conversion-framework.streamlit.app/)
+
+- Launch the application locally with `uv run streamlit run app.py`
+
 
 # References
 
